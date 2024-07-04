@@ -2,7 +2,7 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { Repository } from './types/ServerAnswer.type';
 
 type AppState = {
-  searchTerm: string;
+  searchRepo: string;
   results: Repository[];
   loading: boolean;
   error: boolean;
@@ -35,7 +35,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       return (
         <h1>
           Something went wrong.
-          <button onClick={() => this.setState({ hasError: false })}>
+          <button
+            className="btn-reset primary-btn"
+            onClick={() => this.setState({ hasError: false })}
+          >
             Try again
           </button>
         </h1>
@@ -49,9 +52,9 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 class App extends Component<object, AppState> {
   constructor(props: object) {
     super(props);
-    const savedSearchTerm = localStorage.getItem('searchTerm') || '';
+    const savedSearchRepo = localStorage.getItem('searchRepo') || '';
     this.state = {
-      searchTerm: savedSearchTerm,
+      searchRepo: savedSearchRepo,
       results: [],
       loading: false,
       error: false,
@@ -59,8 +62,8 @@ class App extends Component<object, AppState> {
   }
 
   componentDidMount() {
-    if (this.state.searchTerm) {
-      this.fetchResults(this.state.searchTerm);
+    if (this.state.searchRepo) {
+      this.fetchResults(this.state.searchRepo);
     }
   }
 
@@ -78,7 +81,7 @@ class App extends Component<object, AppState> {
     )
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response wasn't ok");
         }
         return response.json();
       })
@@ -92,17 +95,17 @@ class App extends Component<object, AppState> {
   };
 
   handleSearch = () => {
-    const { searchTerm } = this.state;
-    localStorage.setItem('searchTerm', searchTerm);
-    this.fetchResults(searchTerm);
+    const { searchRepo } = this.state;
+    localStorage.setItem('searchRepo', searchRepo);
+    this.fetchResults(searchRepo);
   };
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchTerm: event.target.value });
+    this.setState({ searchRepo: event.target.value });
   };
 
   render() {
-    const { searchTerm, results, loading, error } = this.state;
+    const { searchRepo, results, loading, error } = this.state;
 
     return (
       <ErrorBoundary>
@@ -119,7 +122,7 @@ class App extends Component<object, AppState> {
               className="form-field__input input-reset"
               placeholder="Enter a repository"
               type="text"
-              value={searchTerm}
+              value={searchRepo}
               onChange={this.handleInputChange}
             />
             <button
