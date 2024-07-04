@@ -8,10 +8,22 @@
   margin: 100px 0;
   padding: 0 var(--container-offset);
 
+  &__info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-direction: column;
+  }
+
   &__search {
     display: flex;
     align-items: center;
     gap: 30px;
+
+    @include small-tablet {
+      flex-direction: column;
+    }
   }
 
   &__list {
@@ -27,12 +39,26 @@
     font-size: 20px;
   }
 
+  &__error {
+    margin-bottom: 20px;
+    font-size: 28px;
+  }
+
   &__title {
     margin: 0;
     font-weight: 600;
     font-size: 48px;
+    text-wrap: balance;
     text-transform: capitalize;
     text-align: center;
     color: var(--banner-color);
+
+    @include tablet {
+      font-size: 32px;
+    }
+
+    @include small-tablet {
+      font-size: 24px;
+    }
   }
 }
