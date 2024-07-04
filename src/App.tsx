@@ -109,7 +109,7 @@ class App extends Component<object, AppState> {
 
     return (
       <ErrorBoundary>
-        <div className="app">
+        <main className="app">
           <div className="app__info">
             <h1 className="app__title">Search for repositories in GitHub 👨‍💻</h1>
             <p className="app__descr">
@@ -117,21 +117,23 @@ class App extends Component<object, AppState> {
               Name/Repository".
             </p>
           </div>
-          <div className="app__search">
-            <input
-              className="form-field__input input-reset"
-              placeholder="Enter a repository"
-              type="text"
-              value={searchRepo}
-              onChange={this.handleInputChange}
-            />
-            <button
-              onClick={this.handleSearch}
-              className="primary-btn btn-reset"
-            >
-              Search
-            </button>
-          </div>
+          <search className="app__search">
+            <form className="app__form">
+              <input
+                className="form-field__input input-reset"
+                placeholder="Enter a repository"
+                type="text"
+                value={searchRepo}
+                onChange={this.handleInputChange}
+              />
+              <button
+                onClick={this.handleSearch}
+                className="primary-btn btn-reset"
+              >
+                Search
+              </button>
+            </form>
+          </search>
           <div className="app__results">
             {loading && (
               <div className="loader-container">
@@ -142,17 +144,19 @@ class App extends Component<object, AppState> {
               <p className="app__error">Error loading results. 😿</p>
             ) : (
               <ul className="app__list list-reset">
-                {results && results.length > 0
-                  ? results.map((result) => (
-                      <li className="app__item" key={result.id}>
-                        {result.full_name}
-                      </li>
-                    ))
-                  : !loading && <li>No results found 🥺</li>}
+                {results && results.length > 0 ? (
+                  results.map((result) => (
+                    <li className="app__item" key={result.id}>
+                      {result.full_name}
+                    </li>
+                  ))
+                ) : (
+                  <li>No results found 🥺</li>
+                )}
               </ul>
             )}
           </div>
-        </div>
+        </main>
       </ErrorBoundary>
     );
   }

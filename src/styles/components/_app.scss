@@ -16,7 +16,12 @@
     flex-direction: column;
   }
 
-  &__search {
+  &__descr {
+    text-wrap: balance;
+    text-align: center;
+  }
+
+  &__form {
     display: flex;
     align-items: center;
     gap: 30px;
@@ -29,8 +34,12 @@
   &__list {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    text-wrap: balance;
+    max-width: 1100px;
     flex-direction: column;
+    padding-left: 20px;
+    list-style: square;
     gap: 10px;
     color: var(--white-color);
   }
