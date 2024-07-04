@@ -20,13 +20,14 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Error caught in ErrorBoundary:', error, errorInfo);
+    this.setState({ hasError: true });
   }
 
   render() {
     if (this.state.hasError) {
       return (
-        <h1>
-          Something went wrong.
+        <h1 className="app__fault">
+          Something went wrong ❌
           <button
             className="btn-reset primary-btn"
             onClick={() => this.setState({ hasError: false })}

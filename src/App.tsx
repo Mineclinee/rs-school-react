@@ -6,6 +6,8 @@ type AppState = {
   results: Repository[];
   loading: boolean;
   error: boolean;
+  throwError: boolean;
+  hasSearched: boolean;
 };
 
 class App extends Component<object, AppState> {
@@ -17,6 +19,8 @@ class App extends Component<object, AppState> {
       results: [],
       loading: false,
       error: false,
+      throwError: false,
+      hasSearched: false,
     };
   }
 
@@ -26,8 +30,12 @@ class App extends Component<object, AppState> {
     }
   }
 
+  handleThrowError = () => {
+    this.setState({ throwError: true });
+  };
+
   fetchResults = (query: string) => {
-    this.setState({ loading: true, error: false });
+    this.setState({ loading: true, error: false, hasSearched: true });
     const token =
       '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';
     fetch(
@@ -64,7 +72,11 @@ class App extends Component<object, AppState> {
   };
 
   render() {
-    const { searchRepo, results, loading, error } = this.state;
+    const { searchRepo, results, loading, error, hasSearched } = this.state;
+
+    if (this.state.throwError === true) {
+      throw new Error('Call an error');
+    }
 
     return (
       <main className="app">
@@ -102,18 +114,33 @@ class App extends Component<object, AppState> {
             <p className="app__error">Error loading results. 😿</p>
           ) : (
             <ul className="app__list list-reset">
-              {results && results.length > 0 ? (
-                results.map((result) => (
-                  <li className="app__item" key={result.id}>
-                    {result.full_name}
-                  </li>
-                ))
-              ) : (
-                <li>No results found 🥺</li>
-              )}
+              {results && results.length > 0
+                ? results.map((result) => (
+                    <li className="app__item" key={result.id}>
+                      <a
+                        className="app__repo-link"
+                        href={result.html_url}
+                        target="_blank"
+                      >
+                        <img
+                          src={result.owner.avatar_url}
+                          alt={`${result.owner.login}'s avatar`}
+                          className="app__avatar"
+                        />
+                        <p className="app__repo-descr">{result.full_name}</p>
+                      </a>
+                    </li>
+                  ))
+                : hasSearched && <li>No results found 🥺</li>}
             </ul>
           )}
         </div>
+        <button
+          onClick={this.handleThrowError}
+          className="app__throw btn-reset primary-btn"
+        >
+          Throw Error
+        </button>
       </main>
     );
   }
