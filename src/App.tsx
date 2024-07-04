@@ -1,35 +1,25 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { Component } from 'react';
+import './App.scss';
 
-function App() {
-  const [count, setCount] = useState(0);
+export class App extends Component {
+  state = {
+    age: 42,
+  };
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+  handleAgeChange = () => {
+    this.setState({
+      age: this.state.age + 1,
+    });
+  };
+
+  render() {
+    return (
+      <>
+        <button onClick={this.handleAgeChange}>Increment age</button>
+        <p>You are {this.state.age}.</p>
+      </>
+    );
+  }
 }
 
 export default App;
