@@ -1,0 +1,26 @@
+:root {
+  // base
+  --font-family: 'Montserrat', sans-serif;
+  --content-width: 1280px;
+  --container-offset: 15px;
+  --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
+  --grid-gap: 20px;
+
+  // colors
+  --white-color: #fff;
+  --light-color: #d1cfd7;
+  --bg-dark: #101010;
+  --consul-bg: #0f0b0a;
+  --accent-color: #eaaf6b;
+  --accent-active-color: #965d1f;
+  --bunting-color: #14183e;
+  --cherokee-color: #f9d08d;
+  --mai-tai-color: #b05f04;
+  --banner-color: #f9f9f9;
+  --sandthorn-color: #f79e3e;
+  --dove-color: #696969;
+  --dusty-color: #9a9999;
+
+  // animation
+  --duration: 0.3s;
+}
