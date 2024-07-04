@@ -127,8 +127,8 @@ class App extends Component<object, AppState> {
                           alt={`${result.owner.login}'s avatar`}
                           className="app__avatar"
                         />
-                        <p className="app__repo-descr">{result.full_name}</p>
                       </a>
+                      <p className="app__repo-descr">{result.full_name}</p>
                     </li>
                   ))
                 : hasSearched && <li>No results found 🥺</li>}

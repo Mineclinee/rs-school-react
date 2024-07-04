@@ -52,16 +52,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-
-  &__repo-link {
-    color: var(--white-color);
     width: 180px;
     transition: var(--duration) color ease-in-out;
 
     @include hover {
       color: var(--accent-color);
     }
+  }
+
+  &__repo-link {
+    color: var(--white-color);
   }
 
   &__repo-descr {
