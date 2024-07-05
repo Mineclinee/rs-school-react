@@ -137,9 +137,9 @@ class App extends Component<object, AppState> {
         </div>
         <button
           onClick={this.handleThrowError}
-          className="app__throw btn-reset primary-btn"
+          className="app__throw btn-reset primary-btn primary-btn--invalid"
         >
-          Throw Error
+          Throw an Error
         </button>
       </main>
     );

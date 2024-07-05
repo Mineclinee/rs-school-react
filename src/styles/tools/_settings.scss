@@ -138,6 +138,44 @@ a {
   }
 }
 
+.primary-btn {
+  color: var(--white-color);
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: lowercase;
+  border-radius: 10px;
+  background-color: var(--accent-color);
+  padding: 23px 47px;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      var(--duration) color ease-in-out,
+      var(--duration) background-color ease-in-out;
+  }
+
+  @include hover {
+    background-color: var(--accent-active-color);
+  }
+
+  &--invalid {
+    background-color: #900020;
+
+    @include hover {
+      background-color: #ff2400;
+    }
+  }
+
+  &:active {
+    outline: none;
+    background-color: var(--accent-active-color);
+  }
+
+  &:disabled {
+    background-color: var(--light-color);
+  }
+}
+
 .form-field {
   &__input {
     width: 246px;

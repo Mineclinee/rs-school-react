@@ -68,7 +68,9 @@
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
+    text-align: center;
   }
 
   &__avatar {
