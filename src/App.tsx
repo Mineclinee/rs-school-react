@@ -27,6 +27,8 @@ class App extends Component<object, AppState> {
   componentDidMount() {
     if (this.state.searchRepo) {
       this.fetchResults(this.state.searchRepo);
+    } else {
+      this.fetchResults('a');
     }
   }
 
@@ -68,7 +70,9 @@ class App extends Component<object, AppState> {
   };
 
   handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchRepo: event.target.value });
+    if (event.target.value === '' || /^[^\s]+$/.test(event.target.value)) {
+      this.setState({ searchRepo: event.target.value });
+    }
   };
 
   render() {
