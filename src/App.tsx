@@ -38,8 +38,7 @@ class App extends Component<object, AppState> {
 
   fetchResults = (query: string) => {
     this.setState({ loading: true, error: false, hasSearched: true });
-    const token =
-      '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';
+    const token = import.meta.env.VITE_TOKEN;
     fetch(
       `https://api.github.com/search/repositories?q=${query}&per_page=50&page=1`,
       {
