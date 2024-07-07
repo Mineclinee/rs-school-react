@@ -38,14 +38,14 @@ class App extends Component<object, AppState> {
 
   fetchResults = (query: string) => {
     this.setState({ loading: true, error: false, hasSearched: true });
-    //const token = import.meta.env.VITE_TOKEN;
+    const token = import.meta.env.VITE_TOKEN;
     fetch(
-      `https://api.github.com/search/repositories?q=${query}&per_page=50&page=1`
-      //{
-      //  headers: {
-      //    authorization: `token ${token}`,
-      //  },
-      //}
+      `https://api.github.com/search/repositories?q=${query}&per_page=50&page=1`,
+      {
+        headers: {
+          authorization: `token ${token}`,
+        },
+      }
     )
       .then((response) => {
         if (!response.ok) {
