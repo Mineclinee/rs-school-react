@@ -1,5 +1,10 @@
 import { Component, ChangeEvent } from 'react';
 import { Repository } from './types/ServerAnswer.type';
+import Header from './components/header/Header';
+import SearchForm from './components/search/Search';
+import ResultsList from './components/resultList/ResultList';
+import Loader from './components/loader/Loader';
+import ErrorMessage from './components/errorMessage/ErrorMessage';
 
 type AppState = {
   searchRepo: string;
@@ -77,59 +82,18 @@ class App extends Component<object, AppState> {
 
     return (
       <main className="app">
-        <div className="app__info">
-          <h1 className="app__title">Search for repositories in GitHub 👨‍💻</h1>
-          <p className="app__descr">
-            Enter a name and get the first 50 results in the format: "Account
-            Name/Repository".
-          </p>
-        </div>
-        <search className="app__search">
-          <form className="app__form">
-            <input
-              className="form-field__input input-reset"
-              placeholder="Enter a repository"
-              type="text"
-              value={searchRepo}
-              onChange={this.handleInputChange}
-            />
-            <button
-              onClick={this.handleSearch}
-              className="primary-btn btn-reset"
-            >
-              Search
-            </button>
-          </form>
-        </search>
+        <Header />
+        <SearchForm
+          searchRepo={searchRepo}
+          handleInputChange={this.handleInputChange}
+          handleSearch={this.handleSearch}
+        />
         <div className="app__results">
-          {loading && (
-            <div className="loader-container">
-              <div className="loader"></div>
-            </div>
-          )}
+          {loading && <Loader />}
           {error ? (
-            <p className="app__error">Error loading results. 😿</p>
+            <ErrorMessage />
           ) : (
-            <ul className="app__list list-reset">
-              {results && results.length > 0
-                ? results.map((result) => (
-                    <li className="app__item" key={result.id}>
-                      <a
-                        className="app__repo-link"
-                        href={result.html_url}
-                        target="_blank"
-                      >
-                        <img
-                          src={result.owner.avatar_url}
-                          alt={`${result.owner.login}'s avatar`}
-                          className="app__avatar"
-                        />
-                      </a>
-                      <p className="app__repo-descr">{result.full_name}</p>
-                    </li>
-                  ))
-                : hasSearched && <li>No results found 🥺</li>}
-            </ul>
+            <ResultsList results={results} hasSearched={hasSearched} />
           )}
         </div>
         <button
