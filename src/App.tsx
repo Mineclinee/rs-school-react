@@ -1,4 +1,4 @@
-import { Component, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Repository } from './types/ServerAnswer.type';
 import Header from './components/header/Header';
 import SearchForm from './components/search/Search';
@@ -6,45 +6,33 @@ import ResultsList from './components/resultList/ResultList';
 import Loader from './components/loader/Loader';
 import ErrorMessage from './components/errorMessage/ErrorMessage';
 
-type AppState = {
-  searchRepo: string;
-  results: Repository[];
-  loading: boolean;
-  error: boolean;
-  throwError: boolean;
-  hasSearched: boolean;
-};
+const App = () => {
+  const [searchRepo, setSearchRepo] = useState('');
+  const [results, setResults] = useState<Repository[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [throwError, setThrowError] = useState(false);
 
-class App extends Component<object, AppState> {
-  constructor(props: object) {
-    super(props);
+  useEffect(() => {
     const savedSearchRepo = localStorage.getItem('searchRepo') || '';
-    this.state = {
-      searchRepo: savedSearchRepo,
-      results: [],
-      loading: false,
-      error: false,
-      throwError: false,
-      hasSearched: false,
-    };
-  }
-
-  componentDidMount() {
-    if (this.state.searchRepo) {
-      this.fetchResults(this.state.searchRepo);
+    if (savedSearchRepo) {
+      fetchResults(savedSearchRepo);
     } else {
-      this.fetchResults('a');
+      fetchResults('a');
     }
-  }
+  }, []);
 
-  handleThrowError = () => {
-    this.setState({ throwError: true });
-  };
-
-  fetchResults = (query: string) => {
-    this.setState({ loading: true, error: false, hasSearched: true });
+  const fetchResults = (query: string) => {
+    setLoading(true);
+    setError(false);
     fetch(
-      `https://api.github.com/search/repositories?q=${query}&per_page=50&page=1`
+      `https://api.github.com/search/repositories?q=${query}&per_page=50&page=1`,
+      {
+        headers: {
+          authorization:
+            'token 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',
+        },
+      }
     )
       .then((response) => {
         if (!response.ok) {
@@ -53,58 +41,54 @@ class App extends Component<object, AppState> {
         return response.json();
       })
       .then((data) => {
-        this.setState({ results: data.items || [], loading: false });
+        setResults(data.items || []);
+        setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching results:', error);
-        this.setState({ error: true, loading: false });
+        setError(true);
+        setLoading(false);
       });
   };
 
-  handleSearch = () => {
-    const { searchRepo } = this.state;
+  const handleSearch = () => {
     localStorage.setItem('searchRepo', searchRepo);
-    this.fetchResults(searchRepo);
+    fetchResults(searchRepo);
   };
 
-  handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === '' || /^[^\s]+$/.test(event.target.value)) {
-      this.setState({ searchRepo: event.target.value });
+      setSearchRepo(event.target.value);
     }
   };
 
-  render() {
-    const { searchRepo, results, loading, error, hasSearched } = this.state;
-
-    if (this.state.throwError === true) {
+  const handleThrowError = () => {
+    setThrowError(true);
+    if (throwError) {
       throw new Error('Call an error');
     }
+  };
 
-    return (
-      <main className="app">
-        <Header />
-        <SearchForm
-          searchRepo={searchRepo}
-          handleInputChange={this.handleInputChange}
-          handleSearch={this.handleSearch}
-        />
-        <div className="app__results">
-          {loading && <Loader />}
-          {error ? (
-            <ErrorMessage />
-          ) : (
-            <ResultsList results={results} hasSearched={hasSearched} />
-          )}
-        </div>
-        <button
-          onClick={this.handleThrowError}
-          className="app__throw btn-reset primary-btn primary-btn--invalid"
-        >
-          Throw an Error
-        </button>
-      </main>
-    );
-  }
-}
+  return (
+    <main className="app">
+      <Header />
+      <SearchForm
+        searchRepo={searchRepo}
+        handleInputChange={handleInputChange}
+        handleSearch={handleSearch}
+      />
+      <div className="app__results">
+        {loading && <Loader />}
+        {error ? <ErrorMessage /> : <ResultsList results={results} />}
+      </div>
+      <button
+        onClick={handleThrowError}
+        className="app__throw btn-reset primary-btn primary-btn--invalid"
+      >
+        Throw an Error
+      </button>
+    </main>
+  );
+};
 
 export default App;
