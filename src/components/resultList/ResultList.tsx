@@ -3,13 +3,18 @@ import { Repository } from '../../types/ServerAnswer.type';
 
 type ResultsListProps = {
   results: Repository[];
+  onRepoClick: (id: number) => void;
 };
 
-const ResultsList: React.FC<ResultsListProps> = ({ results }) => (
+const ResultsList: React.FC<ResultsListProps> = ({ results, onRepoClick }) => (
   <ul className="app__list list-reset">
     {results && results.length > 0 ? (
       results.map((result) => (
-        <li className="app__item" key={result.id}>
+        <li
+          className="app__item"
+          key={result.id}
+          onClick={() => onRepoClick(result.id)}
+        >
           <a className="app__repo-link" href={result.html_url} target="_blank">
             <img
               src={result.owner.avatar_url}

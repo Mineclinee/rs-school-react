@@ -5,28 +5,49 @@ import SearchForm from './components/search/Search';
 import ResultsList from './components/resultList/ResultList';
 import Loader from './components/loader/Loader';
 import ErrorMessage from './components/errorMessage/ErrorMessage';
+import Pagination from './components/pagination/Pagination';
+import { useSearchParams, useNavigate, Outlet } from 'react-router-dom';
 
 const App = () => {
   const [searchRepo, setSearchRepo] = useState('');
   const [results, setResults] = useState<Repository[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [throwError, setThrowError] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedSearchRepo = localStorage.getItem('searchRepo') || '';
-    if (savedSearchRepo) {
-      fetchResults(savedSearchRepo);
-    } else {
-      fetchResults('a');
-    }
-  }, []);
+    const pageParam = searchParams.get('page');
+    const pageNumber = pageParam ? parseInt(pageParam, 10) : 1;
+    setPage(pageNumber);
 
-  const fetchResults = (query: string) => {
+    if (savedSearchRepo) {
+      fetchResults(savedSearchRepo, pageNumber);
+    } else {
+      fetchResults('a', pageNumber);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const detailsParam = searchParams.get('details');
+    if (detailsParam) {
+      navigate(`/details/${detailsParam}`);
+    }
+  }, [searchParams, navigate]);
+
+  const fetchResults = (query: string, pageNumber: number) => {
+    if (!query) {
+      setError(true);
+      return;
+    }
+
     setLoading(true);
     setError(false);
     fetch(
-      `https://api.github.com/search/repositories?q=${query}&per_page=18&page=1`,
+      `https://api.github.com/search/repositories?q=${query}&per_page=12&page=${pageNumber}`,
       {
         headers: {
           authorization: `token ${import.meta.env.VITE_API_KEY}`,
@@ -41,6 +62,7 @@ const App = () => {
       })
       .then((data) => {
         setResults(data.items || []);
+        setTotalCount(data.total_count);
         setLoading(false);
       })
       .catch((error) => {
@@ -52,7 +74,9 @@ const App = () => {
 
   const handleSearch = () => {
     localStorage.setItem('searchRepo', searchRepo);
-    fetchResults(searchRepo);
+    setPage(1);
+    setSearchParams({ page: '1' });
+    fetchResults(searchRepo, 1);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,31 +85,47 @@ const App = () => {
     }
   };
 
-  const handleThrowError = () => {
-    setThrowError(true);
-    if (throwError) {
-      throw new Error('Call an error');
-    }
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    setSearchParams({ page: newPage.toString() });
+    fetchResults(searchRepo, newPage);
   };
+
+  const handleRepoClick = (id: number) => {
+    setSearchParams({ frontpage: page.toString(), details: id.toString() });
+  };
+
+  const detailsParam = searchParams.get('details');
+  const showDetails = detailsParam !== null;
 
   return (
     <main className="app">
-      <Header />
-      <SearchForm
-        searchRepo={searchRepo}
-        handleInputChange={handleInputChange}
-        handleSearch={handleSearch}
-      />
-      <div className="app__results">
-        {loading && <Loader />}
-        {error ? <ErrorMessage /> : <ResultsList results={results} />}
+      <div className="app__aside">
+        <Header />
+        <SearchForm
+          searchRepo={searchRepo}
+          handleInputChange={handleInputChange}
+          handleSearch={handleSearch}
+        />
       </div>
-      <button
-        onClick={handleThrowError}
-        className="app__throw btn-reset primary-btn primary-btn--invalid"
-      >
-        Throw an Error
-      </button>
+      <div className="app__content">
+        <div className="app__results">
+          {loading && <Loader />}
+          {error ? (
+            <ErrorMessage />
+          ) : (
+            <>
+              <ResultsList results={results} onRepoClick={handleRepoClick} />
+              <Pagination
+                currentPage={page}
+                totalCount={totalCount}
+                onPageChange={handlePageChange}
+              />
+            </>
+          )}
+        </div>
+        {showDetails && <Outlet />}
+      </div>
     </main>
   );
 };

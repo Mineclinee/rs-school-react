@@ -173,6 +173,13 @@ a {
 
   &:disabled {
     background-color: var(--light-color);
+    cursor: auto;
+  }
+
+  &--sm {
+    font-size: 18px;
+    padding: 5px;
+    font-weight: 400;
   }
 }
 
@@ -220,11 +227,11 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   background: rgba(255, 255, 255, 0.8);
 }
 

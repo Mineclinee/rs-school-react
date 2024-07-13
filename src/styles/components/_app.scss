@@ -2,11 +2,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   gap: 75px;
   width: 100%;
   margin: 100px 0;
   padding: 0 var(--container-offset);
+
+  &__aside {
+    border: 2px solid var(--accent-color);
+    border-radius: 25px;
+    padding: 10px 5px;
+    align-self: flex-start;
+  }
 
   &__info {
     display: flex;
@@ -14,6 +21,7 @@
     justify-content: center;
     gap: 15px;
     flex-direction: column;
+    margin-bottom: 30px;
   }
 
   &__descr {
@@ -24,6 +32,7 @@
   &__form {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 30px;
 
     @include small-tablet {
@@ -31,18 +40,26 @@
     }
   }
 
+  &__content {
+    border: 2px solid var(--accent-color);
+    border-radius: 25px;
+    padding: 10px 5px;
+  }
+
   &__list {
     display: flex;
     justify-content: center;
     align-items: flex-start;
     text-wrap: balance;
-    max-width: 1100px;
+    max-width: 1400px;
     flex-direction: row;
     flex-wrap: wrap;
     padding-left: 20px;
+    overflow: hidden;
     list-style: square;
     column-gap: 250px;
     row-gap: 25px;
+    margin-bottom: 65px;
     color: var(--white-color);
   }
 
@@ -85,7 +102,7 @@
   &__title {
     margin: 0;
     font-weight: 600;
-    font-size: 48px;
+    font-size: 32px;
     text-wrap: balance;
     text-transform: capitalize;
     text-align: center;
@@ -109,5 +126,32 @@
     width: 100%;
     height: 100vh;
     gap: 30px;
+  }
+
+  &__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    &-item {
+      color: var(--bg-dark);
+      padding: 5px 10px;
+      border-radius: 50px;
+      background-color: var(--banner-color);
+      transition:
+        var(--duration) ease-in-out color,
+        var(--duration) ease-in-out background-color;
+
+      @include hover {
+        background-color: var(--accent-color);
+        color: var(--white-color);
+      }
+
+      &--active {
+        color: var(--white-color);
+        background-color: var(--accent-color);
+      }
+    }
   }
 }
