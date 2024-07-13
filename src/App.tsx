@@ -26,11 +26,10 @@ const App = () => {
     setLoading(true);
     setError(false);
     fetch(
-      `https://api.github.com/search/repositories?q=${query}&per_page=50&page=1`,
+      `https://api.github.com/search/repositories?q=${query}&per_page=18&page=1`,
       {
         headers: {
-          authorization:
-            'token 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',
+          authorization: `token ${import.meta.env.VITE_API_KEY}`,
         },
       }
     )
