@@ -1,16 +1,21 @@
 .app {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
   gap: 75px;
   width: 100%;
   margin: 100px 0;
   padding: 0 var(--container-offset);
 
+  &__left {
+    grid-column: 8 span;
+  }
+
+  &__right {
+    grid-column: 4 span;
+  }
+
   &__aside {
     border: 2px solid var(--accent-color);
     border-radius: 25px;
+    margin-bottom: 30px;
     padding: 10px 5px;
     align-self: flex-start;
   }
@@ -43,7 +48,11 @@
   &__content {
     border: 2px solid var(--accent-color);
     border-radius: 25px;
-    padding: 10px 5px;
+    padding: 20px 5px;
+  }
+
+  &__results {
+    text-align: center;
   }
 
   &__list {
@@ -51,7 +60,6 @@
     justify-content: center;
     align-items: flex-start;
     text-wrap: balance;
-    max-width: 1400px;
     flex-direction: row;
     flex-wrap: wrap;
     padding-left: 20px;

@@ -60,7 +60,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         className="app__pagination--next btn-reset primary-btn primary-btn--sm"
         onClick={() => handleClick(currentPage + 1)}
-        disabled={currentPage === totalPages}
+        disabled={currentPage === totalPages || totalCount === 0}
       >
         Next
       </button>

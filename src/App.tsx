@@ -6,7 +6,7 @@ import ResultsList from './components/resultList/ResultList';
 import Loader from './components/loader/Loader';
 import ErrorMessage from './components/errorMessage/ErrorMessage';
 import Pagination from './components/pagination/Pagination';
-import { useSearchParams, useNavigate, Outlet } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const App = () => {
   const [searchRepo, setSearchRepo] = useState('');
@@ -95,36 +95,41 @@ const App = () => {
     setSearchParams({ frontpage: page.toString(), details: id.toString() });
   };
 
-  const detailsParam = searchParams.get('details');
-  const showDetails = detailsParam !== null;
+  //const detailsParam = searchParams.get('details');
+  //const showDetails = detailsParam !== null;
 
   return (
-    <main className="app">
-      <div className="app__aside">
-        <Header />
-        <SearchForm
-          searchRepo={searchRepo}
-          handleInputChange={handleInputChange}
-          handleSearch={handleSearch}
-        />
-      </div>
-      <div className="app__content">
-        <div className="app__results">
-          {loading && <Loader />}
-          {error ? (
-            <ErrorMessage />
-          ) : (
-            <>
-              <ResultsList results={results} onRepoClick={handleRepoClick} />
-              <Pagination
-                currentPage={page}
-                totalCount={totalCount}
-                onPageChange={handlePageChange}
-              />
-            </>
-          )}
+    <main className="app grid">
+      <div className="app__left">
+        <div className="app__aside">
+          <Header />
+          <SearchForm
+            searchRepo={searchRepo}
+            handleInputChange={handleInputChange}
+            handleSearch={handleSearch}
+          />
         </div>
-        {showDetails && <Outlet />}
+        <div className="app__content">
+          <div className="app__results">
+            {loading && <Loader />}
+            {error ? (
+              <ErrorMessage />
+            ) : (
+              <>
+                <ResultsList results={results} onRepoClick={handleRepoClick} />
+                <Pagination
+                  currentPage={page}
+                  totalCount={totalCount}
+                  onPageChange={handlePageChange}
+                />
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="app__right">
+        {/* showDetails && <Outlet /> */}
+        {/* <Outlet /> */}
       </div>
     </main>
   );
