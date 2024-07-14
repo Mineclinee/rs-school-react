@@ -4,11 +4,11 @@ import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
   plugins: [react()],
-  test: {
-    globals: true,
-    enviroment: 'jsdom',
-    setupFiles: './__tests__/setup.ts',
-  },
+  // test: {
+  //   globals: true,
+  //   enviroment: 'jsdom',
+  //   setupFiles: './__tests__/setup.ts',
+  // },
   css: {
     postcss: {
       plugins: [autoprefixer({})],
