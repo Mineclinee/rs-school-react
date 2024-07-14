@@ -1,0 +1,57 @@
+{
+  "name": "mineclinee-react2024q3",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "browserslist": [
+    "cover 99.5%"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format:fix": "prettier . --write",
+    "preview": "vite preview",
+    "prepare": "husky install",
+    "test": "vitest",
+    "coverage": "npx vitest --coverage"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.3.1",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^2.0.2",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react-compiler": "^0.0.0-experimental-0998c1e-20240625",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "history": "^5.3.0",
+    "husky": "^8.0.0",
+    "jsdom": "^24.1.0",
+    "lint-staged": "^15.2.7",
+    "modern-normalize": "^2.0.0",
+    "postcss": "^8.4.39",
+    "prettier": "^3.3.2",
+    "react-router-dom": "^6.24.1",
+    "sass": "^1.77.6",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.1",
+    "vitest": "^2.0.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "npm run lint",
+    "*": "npm run format:fix"
+  }
+}
