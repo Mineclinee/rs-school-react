@@ -1,8 +1,12 @@
 # RS School — React course
 
+## Связь со мной - https://t.me/Minecline
+
 ### Если у вас выдает ошибку, пожалуйста, создайте .env файл в корне проекта и пропишите туда:
 
-`VITE_API_KEY=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`
+`VITE_API_KEY=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`
+
+(это ключ от api gihtub, его также можно сгенерировать в https://github.com/settings/tokens?type=beta)
 
 ### И измените App.tsx (со строчки fetch):
 

@@ -51,7 +51,12 @@ const App = () => {
     setLoading(true);
     setError(false);
     fetch(
-      `https://api.github.com/search/repositories?q=${query}&per_page=12&page=${pageNumber}`
+      `https://api.github.com/search/repositories?q=${query}&per_page=12&page=${pageNumber}`,
+      {
+        headers: {
+          authorization: `token ${import.meta.env.VITE_API_KEY}`,
+        },
+      }
     )
       .then((response) => {
         if (!response.ok) {
