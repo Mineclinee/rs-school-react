@@ -2,15 +2,17 @@
 
 ## Связь со мной - https://t.me/Minecline
 
+# На случай ошибки:
+
 ### Если у вас выдает ошибку, пожалуйста, создайте .env файл в корне проекта и пропишите туда:
 
-## (УБЕРИТЕ ПРОБЕЛЫ МЕЖДУ СИМВОЛАМИ "\_")
+### (УБЕРИТЕ ПРОБЕЛЫ МЕЖДУ СИМВОЛАМИ "\_")
 
 `VITE_API_KEY=github _ pat_ 11AMRE2QA0gnc2JXy3Ly9v _ F96xy7Y7vibjpTMKozPXS749k75wazsUZB8mXW44YrAPI2GO7AHzBNw4NrJ`
 
 (это ключ от api gihtub, его также можно сгенерировать в https://github.com/settings/tokens?type=beta)
 
-### И измените App.tsx (со строчки fetch):
+### измените App.tsx (со строчки fetch):
 
 ```javascript
 fetch(
@@ -21,6 +23,16 @@ fetch(
     },
   }
 );
+```
+
+### а также измените RepoDetails.tsx (со строчки fetch)
+
+```javascript
+fetch(`https://api.github.com/repositories/${repoId}`, {
+  headers: {
+    authorization: `token ${import.meta.env.VITE_API_KEY}`,
+  },
+});
 ```
 
 # Ошибки может и не быть!

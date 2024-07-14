@@ -22,11 +22,7 @@ const RepoDetails: React.FC = () => {
     setLoading(true);
     setError(false);
 
-    fetch(`https://api.github.com/repositories/${repoId}`, {
-      headers: {
-        authorization: `token ${import.meta.env.VITE_API_KEY}`,
-      },
-    })
+    fetch(`https://api.github.com/repositories/${repoId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response wasn't ok");
