@@ -45,7 +45,7 @@ const RepoDetails: React.FC = () => {
   };
 
   const handleClose = () => {
-    navigate('/');
+    navigate(`/?page=${localStorage.getItem('page')}`);
   };
 
   return (

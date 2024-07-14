@@ -11,13 +11,13 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onRepoClick }) => {
   const navigate = useNavigate();
   const handleClick = (id: number) => {
     onRepoClick(id);
-    navigate(`details/${id}`);
+    navigate(`details/${id}?page=${localStorage.getItem('page')}`);
   };
 
   const handleOutsideClick = (event: React.MouseEvent) => {
     if (!(event.target as HTMLElement).classList.contains('app__repo-descr')) {
       event.stopPropagation();
-      navigate('/');
+      navigate(`/?page=${localStorage.getItem('page')}`);
     }
   };
 
