@@ -7,9 +7,14 @@ import Loader from './components/loader/Loader';
 import ErrorMessage from './components/errorMessage/ErrorMessage';
 import Pagination from './components/pagination/Pagination';
 import { useSearchParams, useNavigate, Outlet } from 'react-router-dom';
+import useLocalStorage from './hooks/useLocalStorage';
 
 const App = () => {
   const [searchRepo, setSearchRepo] = useState('');
+  const [storedSearchRepo, setStoredSearchRepo] = useLocalStorage(
+    'searchRepo',
+    ''
+  );
   const [results, setResults] = useState<Repository[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -19,16 +24,15 @@ const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const savedSearchRepo = localStorage.getItem('searchRepo') || '';
     const savedPage = localStorage.getItem('page');
     const pageNumber = savedPage ? parseInt(savedPage, 10) : 1;
     const detailsParam = searchParams.get('details');
 
     setPage(pageNumber);
 
-    if (savedSearchRepo) {
-      setSearchRepo(savedSearchRepo);
-      fetchResults(savedSearchRepo, pageNumber);
+    if (storedSearchRepo) {
+      setSearchRepo(storedSearchRepo);
+      fetchResults(storedSearchRepo, pageNumber);
     } else {
       fetchResults('a', pageNumber);
     }
@@ -36,7 +40,7 @@ const App = () => {
     if (detailsParam) {
       navigate(`/details/${detailsParam}`, { replace: true });
     }
-  }, [searchParams, navigate]);
+  }, [searchParams, navigate, storedSearchRepo]);
 
   const fetchResults = (query: string, pageNumber: number) => {
     if (!query) {
@@ -73,7 +77,7 @@ const App = () => {
   };
 
   const handleSearch = () => {
-    localStorage.setItem('searchRepo', searchRepo);
+    setStoredSearchRepo(searchRepo);
     setPage(1);
     localStorage.setItem('page', '1');
     setSearchParams({ page: '1' });
@@ -90,7 +94,7 @@ const App = () => {
     setPage(newPage);
     localStorage.setItem('page', newPage.toString());
     setSearchParams({ page: newPage.toString() });
-    fetchResults(searchRepo, newPage);
+    fetchResults(storedSearchRepo, newPage);
   };
 
   const handleRepoClick = (id: number) => {

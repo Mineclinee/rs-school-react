@@ -1,8 +1,8 @@
-import React, { ChangeEvent, FormEvent } from 'react';
+import React from 'react';
 
 type SearchFormProps = {
   searchRepo: string;
-  handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSearch: () => void;
 };
 
@@ -10,26 +10,25 @@ const SearchForm: React.FC<SearchFormProps> = ({
   searchRepo,
   handleInputChange,
   handleSearch,
-}) => {
-  const onSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    handleSearch();
-  };
-
-  return (
-    <form className="app__form" onSubmit={onSubmit}>
-      <input
-        className="form-field__input input-reset"
-        placeholder="Enter a repository"
-        type="text"
-        value={searchRepo}
-        onChange={handleInputChange}
-      />
-      <button type="submit" className="primary-btn btn-reset">
-        Search
-      </button>
-    </form>
-  );
-};
+}) => (
+  <form
+    className="app__form"
+    onSubmit={(e) => {
+      e.preventDefault();
+      handleSearch();
+    }}
+  >
+    <input
+      type="text"
+      value={searchRepo}
+      onChange={handleInputChange}
+      placeholder="Enter repo name"
+      className="form-field__input input-reset"
+    />
+    <button type="submit" className="btn-reset primary-btn">
+      Search
+    </button>
+  </form>
+);
 
 export default SearchForm;
