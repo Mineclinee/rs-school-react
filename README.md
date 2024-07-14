@@ -4,7 +4,9 @@
 
 ### Если у вас выдает ошибку, пожалуйста, создайте .env файл в корне проекта и пропишите туда:
 
-`VITE_API_KEY=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`
+## (УБЕРИТЕ ПРОБЕЛЫ МЕЖДУ СИМВОЛАМИ "\_")
+
+`VITE_API_KEY=github _ pat_ 11AMRE2QA0gnc2JXy3Ly9v _ F96xy7Y7vibjpTMKozPXS749k75wazsUZB8mXW44YrAPI2GO7AHzBNw4NrJ`
 
 (это ключ от api gihtub, его также можно сгенерировать в https://github.com/settings/tokens?type=beta)
 
