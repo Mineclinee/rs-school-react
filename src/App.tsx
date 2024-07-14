@@ -75,6 +75,7 @@ const App = () => {
   const handleSearch = () => {
     localStorage.setItem('searchRepo', searchRepo);
     setPage(1);
+    localStorage.setItem('page', '1');
     setSearchParams({ page: '1' });
     fetchResults(searchRepo, 1);
   };

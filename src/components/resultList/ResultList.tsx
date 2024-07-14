@@ -14,8 +14,15 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onRepoClick }) => {
     navigate(`details/${id}`);
   };
 
+  const handleOutsideClick = (event: React.MouseEvent) => {
+    if (!(event.target as HTMLElement).classList.contains('app__repo-descr')) {
+      event.stopPropagation();
+      navigate('/');
+    }
+  };
+
   return (
-    <ul className="app__list list-reset">
+    <ul className="app__list list-reset" onClick={handleOutsideClick}>
       {results && results.length > 0 ? (
         results.map((result) => (
           <li

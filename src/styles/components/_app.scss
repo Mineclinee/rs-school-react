@@ -59,6 +59,7 @@
   }
 
   &__list {
+    z-index: index 10;
     display: flex;
     justify-content: center;
     align-items: flex-start;

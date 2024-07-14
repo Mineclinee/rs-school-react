@@ -5,6 +5,20 @@
   flex-direction: column;
   gap: 15px;
 
+  &__close {
+    align-self: flex-end;
+    background-color: var(--accent-color);
+    padding: 3px;
+    border-radius: 25px;
+    width: 32px;
+    height: 32px;
+    transition: var(--duration) ease-in-out transform;
+
+    @include hover {
+      transform: rotate(180deg);
+    }
+  }
+
   &__item {
     font-size: 16px;
   }
