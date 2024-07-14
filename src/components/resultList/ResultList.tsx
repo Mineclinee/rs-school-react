@@ -1,34 +1,43 @@
 import React from 'react';
 import { Repository } from '../../types/ServerAnswer.type';
+import { useNavigate } from 'react-router-dom';
 
 type ResultsListProps = {
   results: Repository[];
   onRepoClick: (id: number) => void;
 };
 
-const ResultsList: React.FC<ResultsListProps> = ({ results, onRepoClick }) => (
-  <ul className="app__list list-reset">
-    {results && results.length > 0 ? (
-      results.map((result) => (
-        <li
-          className="app__item"
-          key={result.id}
-          onClick={() => onRepoClick(result.id)}
-        >
-          <a className="app__repo-link" href={result.html_url} target="_blank">
-            <img
-              src={result.owner.avatar_url}
-              alt={`${result.owner.login}'s avatar`}
-              className="app__avatar"
-            />
-          </a>
-          <p className="app__repo-descr">{result.full_name}</p>
-        </li>
-      ))
-    ) : (
-      <li>No results found 🥺</li>
-    )}
-  </ul>
-);
+const ResultsList: React.FC<ResultsListProps> = ({ results, onRepoClick }) => {
+  const navigate = useNavigate();
+  const handleClick = (id: number) => {
+    onRepoClick(id);
+    navigate(`details/${id}`);
+  };
+
+  return (
+    <ul className="app__list list-reset">
+      {results && results.length > 0 ? (
+        results.map((result) => (
+          <li
+            className="app__item"
+            key={result.id}
+            onClick={() => handleClick(result.id)}
+          >
+            <span className="app__repo-link">
+              <img
+                src={result.owner.avatar_url}
+                alt={`${result.owner.login}'s avatar`}
+                className="app__avatar"
+              />
+            </span>
+            <p className="app__repo-descr">{result.full_name}</p>
+          </li>
+        ))
+      ) : (
+        <li>No results found 🥺</li>
+      )}
+    </ul>
+  );
+};
 
 export default ResultsList;

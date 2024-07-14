@@ -6,7 +6,7 @@ import ResultsList from './components/resultList/ResultList';
 import Loader from './components/loader/Loader';
 import ErrorMessage from './components/errorMessage/ErrorMessage';
 import Pagination from './components/pagination/Pagination';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, Outlet } from 'react-router-dom';
 
 const App = () => {
   const [searchRepo, setSearchRepo] = useState('');
@@ -20,21 +20,21 @@ const App = () => {
 
   useEffect(() => {
     const savedSearchRepo = localStorage.getItem('searchRepo') || '';
-    const pageParam = searchParams.get('page');
-    const pageNumber = pageParam ? parseInt(pageParam, 10) : 1;
+    const savedPage = localStorage.getItem('page');
+    const pageNumber = savedPage ? parseInt(savedPage, 10) : 1;
+    const detailsParam = searchParams.get('details');
+
     setPage(pageNumber);
 
     if (savedSearchRepo) {
+      setSearchRepo(savedSearchRepo);
       fetchResults(savedSearchRepo, pageNumber);
     } else {
       fetchResults('a', pageNumber);
     }
-  }, [searchParams]);
 
-  useEffect(() => {
-    const detailsParam = searchParams.get('details');
     if (detailsParam) {
-      navigate(`/details/${detailsParam}`);
+      navigate(`/details/${detailsParam}`, { replace: true });
     }
   }, [searchParams, navigate]);
 
@@ -87,16 +87,15 @@ const App = () => {
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
+    localStorage.setItem('page', newPage.toString());
     setSearchParams({ page: newPage.toString() });
     fetchResults(searchRepo, newPage);
   };
 
   const handleRepoClick = (id: number) => {
-    setSearchParams({ frontpage: page.toString(), details: id.toString() });
+    localStorage.setItem('page', page.toString());
+    navigate(`/details/${id}`);
   };
-
-  //const detailsParam = searchParams.get('details');
-  //const showDetails = detailsParam !== null;
 
   return (
     <main className="app grid">
@@ -128,8 +127,7 @@ const App = () => {
         </div>
       </div>
       <div className="app__right">
-        {/* showDetails && <Outlet /> */}
-        {/* <Outlet /> */}
+        <Outlet />
       </div>
     </main>
   );

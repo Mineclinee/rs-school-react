@@ -43,17 +43,33 @@ const RepoDetails: React.FC = () => {
   };
 
   return (
-    <div className="repo-details">
+    <div className="app__repo-details details">
       {loading && <Loader />}
       {error && <ErrorMessage />}
       {repo && !loading && !error && (
-        <div>
-          <h2>{repo.full_name}</h2>
-          <p>{repo.description}</p>
-          <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+        <>
+          <img
+            className="details__img"
+            src={repo.owner.avatar_url}
+            alt={repo.description}
+          />
+          <h2 className="details__item">Repo name: {repo.name}</h2>
+          <p className="details__item">Auth name: {repo.owner.login}</p>
+          <p className="details__item">Description: {repo.description}</p>
+          <p className="detais__item">Created at: {repo.created_at}</p>
+          <p className="detais__item">Updated at: {repo.updated_at}</p>
+          <p className="detais__item">Language: {repo.language}</p>
+          <p className="detais__item">Stars: {repo.stargazers_count}</p>
+          <p className="detais__item">Forks: {repo.forks_count}</p>
+          <p className="detais__item">Open issues: {repo.open_issues}</p>
+          <a
+            className="detais__item details__link"
+            href={repo.html_url}
+            target="_blank"
+          >
             View on GitHub
           </a>
-        </div>
+        </>
       )}
     </div>
   );

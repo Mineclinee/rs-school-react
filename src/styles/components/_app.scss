@@ -10,6 +10,9 @@
 
   &__right {
     grid-column: 4 span;
+    border: 1px solid var(--accent-color);
+    border-radius: 25px;
+    padding: 15px 10px;
   }
 
   &__aside {
@@ -79,6 +82,7 @@
     justify-content: center;
     width: 180px;
     transition: var(--duration) color ease-in-out;
+    cursor: pointer;
 
     @include hover {
       color: var(--accent-color);
@@ -96,6 +100,7 @@
     line-clamp: 2;
     -webkit-line-clamp: 2;
     text-align: center;
+    max-width: 250px;
   }
 
   &__avatar {
